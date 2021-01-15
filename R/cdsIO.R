@@ -3,7 +3,7 @@
 # library
 library(hdf5r)
 library(Matrix)
-library(monocle3)
+library(monocle)
 
 # --- monocle read the h5 file
 
