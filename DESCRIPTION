@@ -13,7 +13,8 @@ Imports:
     Seurat,
     hdf5r,
     Matrix,
-    SummarizedExperiment,
+    SummarizedExperiment
+Suggests:
     monocle3
 URL: https://dplyr.tidyverse.org, https://github.com/tidyverse/dplyr
 RoxygenNote: 7.1.1
