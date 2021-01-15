@@ -114,7 +114,7 @@ cds_write_h5 <- function(cds = NULL, file = NULL, assay.name = NULL){
   }
   h5 <- H5File$new(filename = file, mode = 'w')
   tryCatch({
-    sce_to_h5(cds = cds, h5 = h5, assay.name = assay.name)
+    cds_to_h5(cds = cds, h5 = h5, assay.name = assay.name)
     h5attr(h5, 'assay_name') <- assay.name
   },
   error = function(e){

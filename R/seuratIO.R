@@ -202,7 +202,7 @@ seurat_to_h5 <- function(seurat=NULL, h5=NULL, assay.name = NULL, save.graphs = 
           gra_list[[paste0(assay.name, '_nn')]] <- 'knn'
           gra_list[[paste0(assay.name, '_snn')]] <- 'snn'
           for(g in names(graph_df)){
-            matrix_to_h5(mat=graph_df[[g]], h5 = graphs, gp_name = gra_list[[g]])
+            matrix_to_h5(mat=graph_df[[g]], h5 = graphs, gr_name = gra_list[[g]])
           }
         }
       }
