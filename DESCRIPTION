@@ -15,6 +15,6 @@ Imports:
     Matrix,
     SummarizedExperiment
 Suggests:
-    monocle3
+    monocle
 URL: https://dplyr.tidyverse.org, https://github.com/tidyverse/dplyr
 RoxygenNote: 7.1.1
