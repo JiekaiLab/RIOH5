@@ -7,6 +7,6 @@ scRNA-seq data IO between R and Python (R version)
 
 ```R
 install.packages('devtools')
-devtools::install_github('JiekaiLab/RIOH5')
+devtools::install_github('JiekaiLab/RIOH5@HEAD')
 ```
 
