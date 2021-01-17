@@ -131,6 +131,8 @@ matrix_to_h5 <- function(mat, h5, gr_name = NULL, save.obs.name = FALSE, save.va
     h5mat[['indptr']] <- slot(object = mat, name = 'p')
     h5mat[['dims']] <- rev(slot(object = mat, name = 'Dim'))
     h5attr(h5mat, 'datatype') <- 'SparseMatrix'
+  }else{
+    stop('The matrix type is wrong')
   }
 }
 
