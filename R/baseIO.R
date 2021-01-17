@@ -114,7 +114,6 @@ matrix_to_h5 <- function(mat, h5, gr_name = NULL, save.obs.name = FALSE, save.va
       h5mat[['obs_names']] <- slot(object = mat, name = 'Dimnames')[[2]]
     }
     h5attr(h5mat, 'datatype') <- 'SparseMatrix'
-    print(paste0(substitute(gr_name),' is sparse matrix'))#1
   }
   else if('matrix' %in% class(mat)){
     h5mat[['matrix']] <- mat

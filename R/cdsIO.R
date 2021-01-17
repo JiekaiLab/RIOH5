@@ -57,11 +57,11 @@ h5_to_cds <- function(h5, assay.name='RNA'){
         cds_list[[paste0(i,'.name')]] <- rownames(var.df)
       }
       if(i == 'rawData'){
-        rdata = h5_to_matrix(h5 = h5[[i]])
+        rdata = h5_to_matrix(h5mat = h5[[i]])
         cds_list[[i]] <- rdata
       }
       if(i == 'normData'){
-        ndata = h5_to_matrix(h5 = h5[[i]])
+        ndata = h5_to_matrix(h5mat = h5[[i]])
         cds_list[[i]] <- ndata
       }
       if(i == 'dimR'){

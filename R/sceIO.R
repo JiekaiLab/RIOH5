@@ -117,12 +117,12 @@ h5_to_sce <- function(h5, assay.name ='RNA'){
       }
       if(i == 'rawData'){
         #--- read the raw counts
-        rdata = h5_to_matrix(h5 = h5[[i]])
+        rdata = h5_to_matrix(h5mat = h5[[i]])
         sce_list[[i]] <- rdata
       }
       if(i == 'normData'){
         #--- read the norm data
-        ndata = h5_to_matrix(h5 = h5[[i]])
+        ndata = h5_to_matrix(h5mat = h5[[i]])
         sce_list[[i]] <- ndata
       }
       if(i == 'dimR'){
