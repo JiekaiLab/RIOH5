@@ -46,7 +46,7 @@ sce_to_h5 <- function(sce, h5, assay.name){
   #--- save the matrix
   gr_list <- list(counts = 'rawData', logcounts = 'normData')
   for(i in names(gr_list)){
-    matrix_to_h5(mat = assays(sce, i), h5 = h5, gr_name = gr_list[[i]])
+    matrix_to_h5(mat = assay(sce, i), h5 = h5, gr_name = gr_list[[i]])
   }
   #--- save cell annotation
   df_to_h5(df = colData(sce), h5 = h5, gr_name = 'obs')
