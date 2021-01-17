@@ -49,25 +49,25 @@ h5_to_seurat <- function(h5, assay.name, load.graph=FALSE){
         #--- read cell annotation
         # obs.df <- h5_to_df(h5 = h5[[i]])
         # obs.name <- rownames(obs.df)
-        seurat_list[[i]] <- h5_to_df(h5 = h5[[i]])
+        seurat_list[[i]] <- h5_to_df(h5df = h5[[i]])
         seurat_list[[paste0(i,'.name')]] <- h5[[i]][['index']][]
       }
       if(i == 'var'){
         #--- read gene annotation
         # var.df <- h5_to_df(h5 = h5[[i]])
         # var.name <- rownames(var.df)
-        seurat_list[[i]] <- h5_to_df(h5 = h5[[i]])
+        seurat_list[[i]] <- h5_to_df(h5df = h5[[i]])
         seurat_list[[paste0(i,'.name')]] <- h5[[i]][['index']][]
       }
       if(i == 'rawData'){
         #--- read the raw counts
         # rdata = h5_to_matrix(h5 = h5[[i]])
-        seurat_list[[i]] <- h5_to_matrix(h5 = h5[[i]])
+        seurat_list[[i]] <- h5_to_matrix(h5mat = h5[[i]])
       }
       if(i == 'normData'){
         #--- read the norm data
         # ndata = h5_to_matrix(h5 = h5[[i]])
-        seurat_list[[i]] <- h5_to_matrix(h5 = h5[[i]])
+        seurat_list[[i]] <- h5_to_matrix(h5mat = h5[[i]])
       }
       if(i == 'dimR'){
         #--- read the dimension reduction
