@@ -28,10 +28,9 @@ sce_write_h5 <- function(sce = NULL, file = NULL, assay.name = NULL){
   },
   error = function(e){
     print(e)
-    file.remove(file)
   },
   finally = {
-    h5$colse_all()
+    h5$close_all()
   })
 }
 
