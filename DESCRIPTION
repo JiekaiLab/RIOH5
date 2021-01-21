@@ -13,7 +13,7 @@ Imports:
     Seurat,
     hdf5r,
     Matrix,
-    SummarizedExperiment,
+    SingleCellExperiment,
     Hmisc
 URL: https://github.com/JiekaiLab/scDior, https://github.com/JiekaiLab/RIOH5
 RoxygenNote: 7.1.1

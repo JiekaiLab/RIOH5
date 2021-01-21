@@ -5,15 +5,18 @@
 \title{The scRNAs-seq analysis objec to H5}
 \usage{
 write_h5(
-  object.type,
   data,
   file,
+  object.type = "seurat",
   assay.name = "RNA",
-  save.graphs = FALSE,
-  save.scale.data = FALSE
+  save.graphs = FALSE
 )
 }
 \arguments{
+\item{data}{The scRNA-seq analysis object data.}
+
+\item{file}{The h5 file}
+
 \item{object.type}{Denotes which object to save.Available options are:
 \itemize{
   \item "seurat": converted the "seurat object" to the h5 file.
@@ -21,11 +24,13 @@ write_h5(
   \item "monocle": converted the "monocle3 object" to the h5 file.
 }}
 
-\item{data}{The scRNA-seq analysis object data.}
+\item{assay.name}{'assay.name' is used to flag the data type. Defualt is "RNA". Available options are:
+\itemize{
+  \item "RNA": this is the scRNA-seq data.
+  \item "spatial": this is the spatial data.}}
 
-\item{file}{The h5 file}
-
-\item{assay.name}{'assay.name' is used to flag the data type, and the default is "RNA", meaning this is scRNA-seq data.}
+\item{save.graphs}{Default is False , determing whether to save the graph(cell-cell similarity network).
+seurat graph is different from scanpy graph. Their relationship are set {"distances": "knn", "connectivities": "snn"} roughly.}
 }
 \description{
 Write h5 and  the scRNA-seq analysis object converted to h5

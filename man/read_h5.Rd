@@ -4,19 +4,22 @@
 \alias{read_h5}
 \title{H5 to scRNAs-seq analysis object}
 \usage{
-read_h5(target.object, file, assay.name = "RNA")
+read_h5(file, target.object = "seurat", assay.name = "RNA")
 }
 \arguments{
-\item{target.object}{Denotes which object to load.Available options are:
+\item{file}{The h5 file}
+
+\item{target.object}{Denotes which object to load. Defualt is "seurat". Available options are:
 \itemize{
   \item "seurat": converted the h5 file to "seurat object".
   \item "singlecellexperiment": converted the h5 file to "singlecellexperiment object".
   \item "monocle": converted the h5 file to "monocle3 object".
 }}
 
-\item{file}{The h5 file}
-
-\item{assay.name}{'assay.name' is used to flag the data type, and the default is "RNA", meaning this is scRNA-seq data.}
+\item{assay.name}{'assay.name' is used to flag the data type. Defualt is "RNA". Available options are:
+\itemize{
+  \item "RNA": this is the scRNA-seq data.
+  \item "spatial": this is the spatial data.}}
 }
 \value{
 The single cell analysis mainstream software

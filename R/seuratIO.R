@@ -38,7 +38,6 @@ seurat_read_h5 <- function(file=NULL, assay.name = NULL){
 #' H5 file is converted to the seurat obejct
 #' @param h5 The h5 file in R
 #' @param assay.name 'assay.name' is used to flag the data type, and the default is "RNA", meaning this is scRNA-seq data.
-#' @param load.graph The knn and snn network isn't loaded(FALSE by defualt).
 #'
 h5_to_seurat <- function(h5, assay.name){
   options(warn = -1)
@@ -122,6 +121,26 @@ h5_to_seurat <- function(h5, assay.name){
   if('spatial' %in% names(seurat_list)){
     seurat@images <- seurat_list[['spatial']]
   }
+  if('graphs' %in% names(h5)){
+    graphs <- h5[["graphs"]]
+    gra_list <- list(knn = "RNA_nn", snn = "RNA_snn")
+    for(g in names(graphs)){
+      graphs_neig_data = h5_to_matrix(gp_name = graphs[[g]], obs_names = obsm, var_names = obsm)
+      seurat@graphs[[gra_list[[g]]]] <- graphs_neig_data
+    }
+  }
+  if('metadata' %in% names(h5)){
+    meta <- h5[['metadata/colors']]
+    for( k in names(meta)){
+      colo <- meta[[k]]
+      if(length(colo$dims) == 1){
+        colo1 = colo[]
+        seurat@misc[[k]] <- colo1
+      }else if(length(colo$dims)>1){
+        print('Colors that are not hex codes are not used')
+      }
+    }
+  }
   return(seurat)
 }
 
@@ -132,11 +151,15 @@ h5_to_seurat <- function(h5, assay.name){
 #' The Seurat object is converted to the h5 file.
 #' @param seurat The seurat object.
 #' @param file The h5 file.
-#' @param assay.name The 'assay.name' is used to flag the data type, and the default is "RNA", meaning this is scRNA-seq data.
-#' @param save.graphs The knn and snn network isn't saved(FALSE by defualt).
-#' @param save.scale.data The scale data isn't saved(FALSE by defualt).
+#' @param assay.name 'assay.name' is used to flag the data type. Defualt is "RNA". Available options are:
+#' \itemize{
+#'   \item "RNA": this is the scRNA-seq data.
+#'   \item "spatial": this is the spatial data.}
+#' @param save.graphs Default is False , determing whether to save the graph(cell-cell similarity network).
+#'   seurat graph is different from scanpy graph. Their relationship are set {"distances": "knn", "connectivities": "snn"} roughly.
+#' @export
 #'
-seurat_write_h5 <- function(seurat = NULL, file = NULL, assay.name = NULL, save.graphs = FALSE, save.scale.data = FALSE){
+seurat_write_h5 <- function(seurat = NULL, file = NULL, assay.name = NULL, save.graphs = FALSE){
   if(is.null(file)){
     stop('No such file or directory')
   }
@@ -163,12 +186,14 @@ seurat_write_h5 <- function(seurat = NULL, file = NULL, assay.name = NULL, save.
 #' Seurat object is converted to h5 file.
 #' @param seurat The seurat object.
 #' @param h5 The h5 file in R.
-#' @param assay.name The 'assay.name' is used to flag the data type, and the default is "RNA", meaning this is scRNA-seq data.
-#' @param save.graphs The knn and snn network isn't saved(FALSE by defualt).
-#' @param save.scale.data The scale data isn't saved(FALSE by defualt).
-#' @param assay.name The 'assay.name' is used to flag the data type, and the default is "RNA", meaning this is scRNA-seq data.
+#' @param assay.name 'assay.name' is used to flag the data type. Defualt is "RNA". Available options are:
+#' \itemize{
+#'   \item "RNA": this is the scRNA-seq data.
+#'   \item "spatial": this is the spatial data.}
+#' @param save.graphs Default is False , determing whether to save the graph(cell-cell similarity network).
+#'   seurat graph is different from scanpy graph. Their relationship are set {"distances": "knn", "connectivities": "snn"} roughly.
 #'
-seurat_to_h5 <- function(seurat=NULL, h5=NULL, assay.name = NULL, save.graphs = FALSE, save.scale.data = FALSE){
+seurat_to_h5 <- function(seurat=NULL, h5=NULL, assay.name = NULL, save.graphs = FALSE){
   if(assay.name == 'spatial'){
     seurat_spatial_to_h5(data=seurat, h5 = h5,gr_name = assay.name)
     assay.name <- capitalize(assay.name)
@@ -221,7 +246,16 @@ seurat_to_h5 <- function(seurat=NULL, h5=NULL, assay.name = NULL, save.graphs = 
       }
     }
     #--- save the metadata colors
-
+    if(length(adata@misc)>0){
+      meta <- h5$create_group('metadata')
+      colo <- grep('color', names(adata@misc), value = TRUE)
+      if(length(colo)>0){
+        color <- meta$create_group('colors')
+        for(co in colo){
+          color[[co]] <- adata@misc[[co]]
+        }
+      }
+    }
   }
   else{
     stop('Please enter the correct assay name')

@@ -10,8 +10,6 @@ h5_to_seurat(h5, assay.name)
 \item{h5}{The h5 file in R}
 
 \item{assay.name}{'assay.name' is used to flag the data type, and the default is "RNA", meaning this is scRNA-seq data.}
-
-\item{load.graph}{The knn and snn network isn't loaded(FALSE by defualt).}
 }
 \description{
 H5 file is converted to the seurat obejct

@@ -8,8 +8,7 @@ seurat_write_h5(
   seurat = NULL,
   file = NULL,
   assay.name = NULL,
-  save.graphs = FALSE,
-  save.scale.data = FALSE
+  save.graphs = FALSE
 )
 }
 \arguments{
@@ -17,11 +16,13 @@ seurat_write_h5(
 
 \item{file}{The h5 file.}
 
-\item{assay.name}{The 'assay.name' is used to flag the data type, and the default is "RNA", meaning this is scRNA-seq data.}
+\item{assay.name}{'assay.name' is used to flag the data type. Defualt is "RNA". Available options are:
+\itemize{
+  \item "RNA": this is the scRNA-seq data.
+  \item "spatial": this is the spatial data.}}
 
-\item{save.graphs}{The knn and snn network isn't saved(FALSE by defualt).}
-
-\item{save.scale.data}{The scale data isn't saved(FALSE by defualt).}
+\item{save.graphs}{Default is False , determing whether to save the graph(cell-cell similarity network).
+seurat graph is different from scanpy graph. Their relationship are set {"distances": "knn", "connectivities": "snn"} roughly.}
 }
 \description{
 The Seurat object is converted to the h5 file.

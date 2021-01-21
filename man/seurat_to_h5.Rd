@@ -4,24 +4,20 @@
 \alias{seurat_to_h5}
 \title{Seurat is converted to h5 file}
 \usage{
-seurat_to_h5(
-  seurat = NULL,
-  h5 = NULL,
-  assay.name = NULL,
-  save.graphs = FALSE,
-  save.scale.data = FALSE
-)
+seurat_to_h5(seurat = NULL, h5 = NULL, assay.name = NULL, save.graphs = FALSE)
 }
 \arguments{
 \item{seurat}{The seurat object.}
 
 \item{h5}{The h5 file in R.}
 
-\item{assay.name}{The 'assay.name' is used to flag the data type, and the default is "RNA", meaning this is scRNA-seq data.}
+\item{assay.name}{'assay.name' is used to flag the data type. Defualt is "RNA". Available options are:
+\itemize{
+  \item "RNA": this is the scRNA-seq data.
+  \item "spatial": this is the spatial data.}}
 
-\item{save.graphs}{The knn and snn network isn't saved(FALSE by defualt).}
-
-\item{save.scale.data}{The scale data isn't saved(FALSE by defualt).}
+\item{save.graphs}{Default is False , determing whether to save the graph(cell-cell similarity network).
+seurat graph is different from scanpy graph. Their relationship are set {"distances": "knn", "connectivities": "snn"} roughly.}
 }
 \description{
 Seurat object is converted to h5 file.
