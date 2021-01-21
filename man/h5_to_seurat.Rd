@@ -4,7 +4,7 @@
 \alias{h5_to_seurat}
 \title{H5 to the seurat}
 \usage{
-h5_to_seurat(h5, assay.name, load.graph = FALSE)
+h5_to_seurat(h5, assay.name)
 }
 \arguments{
 \item{h5}{The h5 file in R}

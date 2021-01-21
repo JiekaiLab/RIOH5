@@ -6,15 +6,14 @@ Authors@R: person("Huijian", "Feng", email="fenghuijian@outlook.com", role=c("au
 Description: The scRNA-seq data IO between R and Python(R version). The scRNA-seq data mainly inlcuding the counts, log data, 
     cell annotation, gene annotation and dimension reduction can be used to IO via an HDF5 file. In the case of big data, this
     greatly reduces the time of data IO and improves the efficiency of corss-platform scRNA-seq analysis.
-License: MIT
+License: GPL-3.0 License 
 Encoding: UTF-8
 LazyData: true
 Imports:
     Seurat,
     hdf5r,
     Matrix,
-    SummarizedExperiment
-Suggests:
-    monocle
-URL: https://dplyr.tidyverse.org, https://github.com/tidyverse/dplyr
+    SummarizedExperiment,
+    Hmisc
+URL: https://github.com/JiekaiLab/scDior, https://github.com/JiekaiLab/RIOH5
 RoxygenNote: 7.1.1

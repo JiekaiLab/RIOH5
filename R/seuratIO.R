@@ -4,6 +4,7 @@
 library(Seurat)
 library(hdf5r)
 library(Matrix)
+library(Hmisc)
 
 # --- seurat read the H5 file
 
@@ -39,7 +40,7 @@ seurat_read_h5 <- function(file=NULL, assay.name = NULL){
 #' @param assay.name 'assay.name' is used to flag the data type, and the default is "RNA", meaning this is scRNA-seq data.
 #' @param load.graph The knn and snn network isn't loaded(FALSE by defualt).
 #'
-h5_to_seurat <- function(h5, assay.name, load.graph=FALSE){
+h5_to_seurat <- function(h5, assay.name){
   options(warn = -1)
   if(h5attr(h5, 'assay_name') == assay.name){
     # -- create seurat module list
@@ -81,6 +82,9 @@ h5_to_seurat <- function(h5, assay.name, load.graph=FALSE){
         }
         seurat_list[[i]] <- dimR_list
       }
+      if(i == 'spatial'){
+        seurat_list[[i]] = h5_to_spatial(h5spa = h5[[i]])
+      }
       ### to be continues
     }
   }else{stop("Entering the 'assay.name' corresponding to h5")}
@@ -90,6 +94,9 @@ h5_to_seurat <- function(h5, assay.name, load.graph=FALSE){
     colnames(seurat_list[[d]]) <- seurat_list[['obs.name']]
   }
   #--- create the seurat object: add the counts or norm data
+  if(assay.name == 'spatial'){
+    assay.name <- capitalize(assay.name)
+  }
   if(all(c('normData', 'rawData')%in%names(seurat_list))){
     seurat <- Seurat::CreateSeuratObject(counts = seurat_list[['rawData']], assay = assay.name)
     seurat@assays[[assay.name]]@data <- seurat_list[['normData']]
@@ -111,6 +118,9 @@ h5_to_seurat <- function(h5, assay.name, load.graph=FALSE){
       seurat@reductions[[dr]] <- seurat_list[['dimR']][[dr]]
       rownames(seurat@reductions[[dr]]@cell.embeddings) = rownames(seurat[[]])
     }
+  }
+  if('spatial' %in% names(seurat_list)){
+    seurat@images <- seurat_list[['spatial']]
   }
   return(seurat)
 }
@@ -159,6 +169,10 @@ seurat_write_h5 <- function(seurat = NULL, file = NULL, assay.name = NULL, save.
 #' @param assay.name The 'assay.name' is used to flag the data type, and the default is "RNA", meaning this is scRNA-seq data.
 #'
 seurat_to_h5 <- function(seurat=NULL, h5=NULL, assay.name = NULL, save.graphs = FALSE, save.scale.data = FALSE){
+  if(assay.name == 'spatial'){
+    seurat_spatial_to_h5(data=seurat, h5 = h5,gr_name = assay.name)
+    assay.name <- capitalize(assay.name)
+  }
   if(assay.name %in% names(slot(object = seurat, name = 'assays'))){
     #--- data
     slot_assay <- slot(object = seurat, name = 'assays')[[assay.name]]
@@ -166,7 +180,6 @@ seurat_to_h5 <- function(seurat=NULL, h5=NULL, assay.name = NULL, save.graphs = 
       # only have rdata (rdata == ndata) defualt norm data
       rdata <- slot(object = slot_assay, name = 'counts')
       matrix_to_h5(mat = rdata, h5 = h5, gr_name = 'rawData')
-      print("'counts' is the sames as the 'data'.")
     }
     else{
       # have rdata and ndata (rdata != ndata)
@@ -207,15 +220,12 @@ seurat_to_h5 <- function(seurat=NULL, h5=NULL, assay.name = NULL, save.graphs = 
         }
       }
     }
+    #--- save the metadata colors
+
   }
   else{
     stop('Please enter the correct assay name')
   }
   return('Done!')
 }
-
-
-
-
-
 

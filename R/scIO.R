@@ -5,7 +5,7 @@ library(Seurat)
 library(hdf5r)
 library(Matrix)
 library(SingleCellExperiment)
-library(monocle)
+# library(monocle3)
 
 #--- read h5 file
 
