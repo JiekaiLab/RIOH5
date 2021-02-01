@@ -20,7 +20,9 @@ df_to_h5 <- function(df, h5, gr_name=NULL){
   # }
   h5df <- h5$create_group(gr_name)
   h5df[['index']] = rownames(df)
-  h5df[['colnames']] = colnames(df)
+  if(ncol(df)>0){
+    h5df[['colnames']] = colnames(df)
+  }
   # factor to levels,charactor to levels,logical to levels
   for(k in names(df)){
     if(is.factor(df[[k]])){
@@ -55,7 +57,6 @@ df_to_h5 <- function(df, h5, gr_name=NULL){
 h5_to_df <- function(h5df){
   df_list <- list()
   df_list[['index']] <- h5df[['index']][]
-  cnames <- h5df[['colnames']][]
   for(k in names(h5df)){
     if(length(h5attr_names(h5df[[k]]))>0){
       df_dtype <- h5attr(h5df[[k]], 'origin_dtype')
@@ -78,7 +79,8 @@ h5_to_df <- function(h5df){
     }
   }
   df = as.data.frame(df_list, row.names = 'index')
-  if(length(cnames)>1){
+  if('colnames' %in% names(h5df)){
+    cnames <- h5df[['colnames']][]
     df = df[,cnames]
   }else{
     df=df
