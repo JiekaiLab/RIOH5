@@ -1,3 +1,9 @@
+library(Seurat)
+library(hdf5r)
+library(Matrix)
+library(Hmisc)
+
+
 #' create the VisiumV1 class inherting the package Seurat 'SpatialImage' class
 #' @import Seurat
 VisiumV1 <- setClass(
