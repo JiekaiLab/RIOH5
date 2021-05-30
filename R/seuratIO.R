@@ -168,7 +168,7 @@ seurat_write_h5 <- function(seurat = NULL, file = NULL, assay.name = NULL, save.
   }
   h5 <- H5File$new(filename = file, mode = 'w')
   tryCatch({
-    seurat_to_h5(seurat = seurat, h5 = h5, assay.name = assay.name, save.graphs = save.graphs, save.scale.data = save.scale.data)
+    seurat_to_h5(seurat = seurat, h5 = h5, assay.name = assay.name, save.graphs = save.graphs)
     h5attr(h5, 'assay_name') <- assay.name
   },
   error = function(e) {
