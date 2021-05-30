@@ -246,13 +246,13 @@ seurat_to_h5 <- function(seurat=NULL, h5=NULL, assay.name = NULL, save.graphs = 
       }
     }
     #--- save the metadata colors
-    if(length(adata@misc)>0){
+    if(length(seurat@misc)>0){
       meta <- h5$create_group('metadata')
-      colo <- grep('color', names(adata@misc), value = TRUE)
+      colo <- grep('color', names(seurat@misc), value = TRUE)
       if(length(colo)>0){
         color <- meta$create_group('colors')
         for(co in colo){
-          color[[co]] <- adata@misc[[co]]
+          color[[co]] <- seurat@misc[[co]]
         }
       }
     }
